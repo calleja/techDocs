@@ -1,0 +1,94 @@
+legal find all arguments
+soup.findAll('a',{'class':'className'})
+
+https://github.com/calleja/cuny_advancedProgramming.git
+
+to push our local repo to the github server, we'll need to add a remote repository.
+"git remote add origin ..." - command takes a remote name and a repository URL.
+- git remote add origin https://github.com/calleja/cuny_advancedProgramming.git
+In the command above, we are creating a remote named "origin" for the repository at the url provided.
+
+"Master" is the default local branch - it is our local computer
+
+git push -u origin master... the "u" stands for upstreaming: for every branch that is up to date or successfully pushed, add upsteam tracking reference
+
+- git pull origin master
+fetch from and integrate with another repository or a local branch... incorporates changes from a remote repo ("origin") into the current branch. Recall that we set origin as a remote branch, and we are on our default local branch, "master"
+
+****Additional Options to the above**** Sometimes when you go to pull you may have changes you don't want to commit just yet. One option you have, other than commiting, is to stash the changes. Use the command 'git stash' to stash your changes, and 'git stash apply' to re-apply your changes after your pull.
+
+BRANCHES
+Git branches are effectively a pointer to a snapshot of your changes. Branches encapsulate any new changes I want to contribute to the project. Branches contain a copy of the project as of a particular time/date (snapshot) and then are free to store updates and progressive coding that can later be merged to the main branch on github servers. A branch is an independent line of development.
+Workflow: create a branch (behind the scenes this creates a new pointer to the current state of the main branch. "Checkout" allows you to select that branch and begin making commits to it.
+
+- the default local branch is called 'master' and is created after running 'git init'
+REMOTE BRANCHES
+Creating remote branches (as opposed to local branches) is done through
+> git remote add new-remote-repo
+another ex:
+>git remote add origin https://github.com/try-git/try_git.git
+git remote add origin https://github.com/calleja/cuny_advancedProgramming.git
+"origin" above is the remote name we want to add; in this case the git server
+View all branches for a repo via - git branch
+
+CONFIGURING REPOSITORIES
+There are local repositories and those hosted on web servers, like Git's. Running "git commit -m ..." stores the changes/documents that are being tracked into our local repo, which is our master branch.
+
+Merging branches
+git pull
+git merged
+git diff reconciles all new changes that were pulled down to the updates uploaded to the branch on the last 'push'
+We'll need to switch back to the master branch... once there run > git merge branchName
+So my local will have a master branch and a secondary branch. The master branch can be set up to reference the origin branch/repo on the github server. This allows for a locally controlled environment because master mimics the server. I will merge changes/fixes into the master branch first, then push to the server.
+Can push to server via > git push
+
+MORE ON BRANCHES...
+running >git checkout -b my-new-feature-branch
+will create a new branch from master as well checkout that new branch at the same time.
+- after creating a branch from the master branch, you have to connect it to the central repository (github server) via 
+>git push -u origin myBranchName ... assuming I named the central repo "origin"
+FETCH
+git fetch
+When doing a git fetch, the resulting commits are stored as remote branches allowing you to review the changes before merging.
+
+VIEW ALL FILES IN THE REPO
+>git ls-files
+
+DELETE BRANCHES
+> git branch -d branchName
+
+SWITCHING BETWEEN BRANCHES
+>get checkout master ... changes the working directory to the master branch
+Before switching branches, all edits and new work must be committed.
+
+MERGING BRANCHES
+...while on the master branch
+>git merge remoteBranch Name
+
+POSSIBLE WORKFLOWS
+objective: apply a hotfix to the master code in a linear fashion and remerge with master and push to remote server:
+1) create new branch from the master (will move pointer and head to the branch):
+>git checkout -b branchName
+... make edits
+2) stage and commit edits on the new branch
+3) switch/checkout the master branch:
+>git checkout master
+4) merge the changes... should see "Fast-forward" if the changes were truly linear:
+>git merge branchName
+5) push to 'origin' remote
+>git push
+... POTENTIAL PITFALLS:
+Similar or identical files are on both branches, which will not allow switchin/checking out between branches. The problem is that you are not tracking the files locally but identical files are tracked remotely so in order to "pull" your system would be forced to overwrite the local files which are not version controlled. To fix this, can try:
+> git add *
+>git stash
+>git pull
+This will track all files, remove all your local changes to those files, and then get the files from the server. Doing this will remove all the untracked files in my directory that I need, so need to be careful. If that it is the case that I do need to store any new documents on the master, I can push it to the repo first. Ostensibly, I will need to remove/clear these untracked files to rid myself of the conflict.
+
+REMOVING FILES    
+we can remove files from stage via -git reset ex > git reset octofamily/octodog.txt
+Notice that 'reset' only undoes staged files and not committed.
+> git rm -- filename.ext
+will remove the file from disk (whichever repo I'm on - could be local) and stage the removal of the file for the repo
+
+REVERT REPO
+Files can be changed back to how they were at the last commit by using - git checkout -- filename.ext
